@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   responsive.css  —  Tablet & Mobile breakpoints
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── TABLET (≤ 900px) ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-attachment: scroll; /* fixed attachment doesn't work well on mobile */
+  }
+
+  .app {
+    height: auto;
+    min-height: 100dvh;
+    padding: 10px 10px 80px;
+    overflow: visible;
+  }
+
+  /* One-column layout */
+  .main-grid {
+    grid-template-columns: 1fr;
+    overflow: visible;
+    flex: none;
+  }
+
+  .col-left,
+  .col-right {
+    overflow: visible;
+  }
+
+  /* Compact header */
+  .logo-text { font-size: 20px; }
+  .logo-sub  { display: none; }
+
+  /* Stats: 2×2 */
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+  }
+  .stat-card { padding: 8px; }
+  .stat-val  { font-size: 14px; }
+
+  /* Balance */
+  .balance-input { font-size: 26px; }
+
+  /* Shop: wrap header */
+  .shop-header { flex-wrap: wrap; gap: 5px; padding: 6px 8px; }
+  .shop-tabs   { flex-wrap: wrap; }
+
+  /* Shop items in a grid on tablet */
+  .shop-items-row {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding: 8px;
+    gap: 6px;
+  }
+  .shop-chip {
+    min-width: calc(33.33% - 5px);
+    flex: 1 1 calc(33.33% - 5px);
+  }
+
+  /* Shop body: taller on mobile */
+  .shop-body        { max-height: 420px !important; }
+  .shop-panel.collapsed .shop-body { max-height: 0 !important; }
+
+  /* Alternatives: single column */
+  .alternatives-grid { grid-template-columns: 1fr; }
+
+  /* Loadout: 2 columns */
+  .loadout-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Ticker: horizontal scroll */
+  .ticker-bar   { overflow-x: auto; }
+  .ticker-items { flex-wrap: nowrap; overflow-x: auto; }
+
+  /* Modal */
+  .modal { max-width: 95%; padding: 20px; }
+
+  /* Divider spacing */
+  .divider { margin: 0; }
+}
+
+/* ─── MOBILE (≤ 480px) ───────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  .app { padding: 8px 8px 60px; }
+
+  .logo-text { font-size: 18px; }
+  .logo-sub  { display: none; }
+
+  /* Stats: keep 2×2 but smaller */
+  .stats-row { gap: 5px; }
+  .stat-val  { font-size: 12px; }
+
+  /* Balance preset buttons: smaller */
+  .preset-btn { font-size: 9px; padding: 3px 6px; }
+
+  /* Shop chips: 2 per row */
+  .shop-chip {
+    min-width: calc(50% - 4px);
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  /* Loadout: single column */
+  .loadout-grid { grid-template-columns: 1fr; }
+
+  /* Shrink rec strategy text */
+  .rec-strategy  { font-size: 22px; }
+  .rec-budget-val { font-size: 16px; }
+
+  /* Hide reset button text, keep icon */
+  .reset-btn-text { display: none; }
+
+  /* Result buttons: smaller text */
+  .result-btn { font-size: 11px; padding: 8px 4px; }
+  .rbtn-icon  { font-size: 12px; }
+
+  /* Ticker: smaller font */
+  .ticker-label { font-size: 8px; }
+  .ticker-items { font-size: 8.5px; }
+}
+
+/* ─── VERY SMALL (≤ 360px) ──────────────────────────────────────────────── */
+@media (max-width: 360px) {
+
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .stat-val  { font-size: 11px; }
+  .stat-label { font-size: 6px; }
+
+  .logo-text { font-size: 16px; letter-spacing: 2px; }
+  .round-badge { font-size: 9px; padding: 2px 6px; }
+
+  .panel { padding: 10px 10px; }
+
+  .balance-input { font-size: 22px; }
+
+  .alternatives-grid { grid-template-columns: 1fr; }
+}

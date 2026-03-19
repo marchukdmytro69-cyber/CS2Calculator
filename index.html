@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS2 Economy Calculator</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets (order matters) -->
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/recommendation.css">
+  <link rel="stylesheet" href="styles/shop.css">
+  <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+
+<!-- Ambient accent glow (behind app content) -->
+<div class="app-glow"></div>
+
+<div class="app">
+
+  <!-- ══ HEADER ═══════════════════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="logo-area">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="42" height="42" stroke="#f5a623" stroke-width="1"/>
+        <rect x="5" y="5" width="34" height="34" stroke="#2a3038" stroke-width="1"/>
+        <path d="M10 22 L18 14 L18 18 L28 18 L28 14 L36 22 L28 30 L28 26 L18 26 L18 30 Z"
+              fill="#f5a623" opacity="0.9"/>
+        <circle cx="22" cy="22" r="2" fill="#0a0c0d"/>
+      </svg>
+      <div class="logo-copy">
+        <div class="logo-text">ECON<span>CALC</span></div>
+        <div class="logo-sub">Counter-Strike 2 · Economy Planner</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="side-indicator ct" id="sideIndicator">CT</div>
+      <div class="round-badge" id="roundBadge">ROUND 1</div>
+      <button class="reset-btn" id="resetBtn" title="Скинути всі раунди">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 8a6 6 0 1 0 1.5-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M2 3.5V8h4.5"           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="reset-btn-text">RESET</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ══ STATS BAR ══════════════════════════════════════════════════════════ -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val accent" id="statBalance">$800</div>
+      <div class="stat-label">Баланс</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val green" id="statNextRound">—</div>
+      <div class="stat-label">Наступний раунд</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val red" id="statLossBonus">$0</div>
+      <div class="stat-label">Бонус поразки</div>
+    </div>
+    <div class="stat-card highlight-card">
+      <div class="stat-val blue" id="statAfterBuy">—</div>
+      <div class="stat-label">Після закупу</div>
+    </div>
+  </div>
+
+  <!-- ══ MAIN GRID ══════════════════════════════════════════════════════════ -->
+  <div class="main-grid">
+
+    <!-- LEFT COLUMN — Input controls ─────────────────────────────────────── -->
+    <aside class="col-left">
+
+      <!-- Balance -->
+      <div class="panel">
+        <div class="panel-label">Поточний баланс</div>
+        <div class="balance-adjuster">
+          <button class="adj-btn minus" id="balanceDec" title="−$50">−</button>
+          <div class="balance-wrapper">
+            <span class="balance-symbol">$</span>
+            <input type="number" class="balance-input" id="balanceInput"
+                   placeholder="0" min="0" max="16000" value="800">
+          </div>
+          <button class="adj-btn plus" id="balanceInc" title="+$50">+</button>
+        </div>
+        <div class="adj-hint">± $50 за кліком</div>
+        <div class="balance-presets">
+          <button class="preset-btn" data-val="800">$800</button>
+          <button class="preset-btn" data-val="1400">$1400</button>
+          <button class="preset-btn" data-val="2700">$2700</button>
+          <button class="preset-btn" data-val="4000">$4000</button>
+          <button class="preset-btn" data-val="5500">$5500</button>
+          <button class="preset-btn" data-val="8000">$8000</button>
+        </div>
+      </div>
+
+      <!-- Side -->
+      <div class="panel">
+        <div class="panel-label">Сторона команди</div>
+        <div class="side-selector">
+          <button class="side-btn ct active" data-side="CT">⚔ CT</button>
+          <button class="side-btn t"         data-side="T">💣 T</button>
+        </div>
+      </div>
+
+      <!-- Loss streak -->
+      <div class="panel">
+        <div class="panel-label">Серія поразок</div>
+        <div class="loss-counter">
+          <span class="loss-label">Стрік:</span>
+          <button class="loss-dot active" data-loss="0" title="0 поразок">0</button>
+          <button class="loss-dot"        data-loss="1" title="1 поразка: +$1900">1</button>
+          <button class="loss-dot"        data-loss="2" title="2 поразки: +$2400">2</button>
+          <button class="loss-dot"        data-loss="3" title="3 поразки: +$2900">3</button>
+          <button class="loss-dot"        data-loss="4" title="4 поразки: +$3400">4</button>
+          <button class="loss-dot"        data-loss="5" title="5+ поразок: +$3400">5+</button>
+        </div>
+        <div class="loss-hint" id="lossHint">Немає бонусу поразки</div>
+      </div>
+
+      <!-- Round result + bomb -->
+      <div class="panel">
+        <div class="panel-label">Результат попереднього раунду</div>
+
+        <div class="result-grid result-grid--two" id="resultGrid">
+          <button class="result-btn win"  data-result="win">
+            <span class="rbtn-icon">✓</span>
+            <span class="rbtn-label">Перемога</span>
+          </button>
+          <button class="result-btn loss" data-result="loss">
+            <span class="rbtn-icon">✗</span>
+            <span class="rbtn-label">Поразка</span>
+          </button>
+        </div>
+
+        <!-- Bomb planted (independent of win/loss) -->
+        <div class="bomb-row" id="bombRow">
+          <label class="bomb-toggle">
+            <input type="checkbox" id="bombPlanted">
+            <span class="bomb-checkbox">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="bomb-text">💣 Бомба встановлена</span>
+            <span class="bomb-bonus-tag" id="bombBonusTag">CT не отримує бонус за плент</span>
+          </label>
+          <div class="bomb-sub-hint" id="bombSubHint"></div>
+        </div>
+      </div>
+
+      <!-- Income breakdown -->
+      <div class="panel">
+        <div class="panel-label">Розрахунок балансу</div>
+
+        <!-- Step 1: Spend -->
+        <div class="inc-step-label">// КРОК 1 — ВИТРАТИ</div>
+        <div class="income-row">
+          <span class="inc-label">ПОТОЧНИЙ БАЛАНС</span>
+          <span class="inc-val accent-val" id="incBalance">$800</span>
+        </div>
+        <div class="income-row">
+          <span class="inc-label">ЗАКУП (магазин)</span>
+          <span class="inc-val red-val" id="incSpend">$0</span>
+        </div>
+        <div class="income-row subtotal-row">
+          <span class="inc-label">ПІСЛЯ ЗАКУПУ</span>
+          <span class="inc-val" id="incAfterSpend">$800</span>
+        </div>
+
+        <!-- Step 2: Income -->
+        <div class="inc-step-label">// КРОК 2 — ДОХІД ЗА РАУНД</div>
+        <div class="income-row">
+          <span class="inc-label">БОНУС РАУНДУ</span>
+          <span class="inc-val" id="incRound">$0</span>
+        </div>
+        <div class="income-row">
+          <span class="inc-label">БОНУС ПОРАЗОК</span>
+          <span class="inc-val" id="incLoss">$0</span>
+        </div>
+        <div class="income-row">
+          <span class="inc-label">ПЛЕНТ БОМБИ (T)</span>
+          <span class="inc-val" id="incBomb">$0</span>
+        </div>
+        <div class="income-row">
+          <span class="inc-label">РОЗМІНУВАННЯ (CT)</span>
+          <span class="inc-val" id="incDefuse">$0</span>
+        </div>
+        <div class="income-row">
+          <span class="inc-label">БОНУС ЗА КІЛИ 💀</span>
+          <span class="inc-val" id="incKills">$0</span>
+        </div>
+
+        <!-- Result -->
+        <div class="income-row total-row">
+          <span class="inc-label">БАЛАНС НАСТУПНОГО РАУНДУ</span>
+          <span class="inc-val green-val" id="incTotal">$0</span>
+        </div>
+      </div>
+
+      <!-- No-buy toggle -->
+      <div class="nobuy-row">
+        <label class="nobuy-toggle">
+          <input type="checkbox" id="noBuyCheck">
+          <span class="nobuy-checkbox">
+            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="nobuy-text">💰 Не купувати — зберегти весь баланс</span>
+        </label>
+        <div class="nobuy-hint" id="noBuyHint"></div>
+      </div>
+
+      <!-- Calculate -->
+      <button class="calc-btn" id="calcBtn">▶ РОЗРАХУВАТИ СТРАТЕГІЮ</button>
+
+    </aside>
+
+    <!-- RIGHT COLUMN — Recommendation output ─────────────────────────────── -->
+    <main class="col-right" id="recommendationArea">
+      <div class="recommendation rec-empty">
+        <div class="empty-state">
+          <div class="empty-icon">🎯</div>
+          <div class="empty-text">Введіть дані та натисніть "Розрахувати"</div>
+          <div class="empty-hint">Оберіть сторону, результат раунду та серію поразок</div>
+        </div>
+      </div>
+    </main>
+
+  </div><!-- /.main-grid -->
+
+  <!-- ══ SHOP PANEL ═════════════════════════════════════════════════════════ -->
+  <div class="shop-panel" id="shopPanel">
+    <div class="shop-header" id="shopHeader">
+      <div class="shop-tabs" id="shopTabs"><!-- rendered by shop.js --></div>
+      <div class="shop-cart-area">
+        <span class="shop-cart-total"  id="shopCartTotal">Кошик: $0</span>
+        <span class="shop-after-buy"   id="shopAfterBuyLabel"></span>
+        <button class="shop-clear-btn" id="shopClearBtn" title="Очистити кошик">✕ Очистити</button>
+      </div>
+      <button class="shop-collapse-btn" id="shopCollapseBtn" title="Згорнути/розгорнути">▲</button>
+    </div>
+    <div class="shop-body" id="shopBody">
+      <div class="shop-items-row" id="shopItemsRow"><!-- rendered by shop.js --></div>
+    </div>
+  </div>
+
+  <!-- ══ HISTORY TICKER ════════════════════════════════════════════════════ -->
+  <div class="ticker-bar">
+    <span class="ticker-label">HISTORY:</span>
+    <div class="ticker-items" id="historyTicker">
+      <span class="no-history">Немає записів</span>
+    </div>
+  </div>
+
+</div><!-- /.app -->
+
+<!-- ══ RESET CONFIRMATION MODAL ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">⚠ СКИНУТИ ВСІ РАУНДИ?</div>
+    <div class="modal-body">
+      Весь прогрес та історія раундів будуть видалені. Ви впевнені?
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel"  id="modalCancel">Скасувати</button>
+      <button class="modal-btn confirm" id="modalConfirm">Скинути</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JAVASCRIPT (loaded in dependency order) ═══════════════════════════ -->
+<script src="js/data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/economy.js"></script>
+<script src="js/render.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/events.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   layout.css  —  Header, Stats bar, Main grid, Ticker
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── DIVIDER ────────────────────────────────────────────────────────────── */
+.divider {
+  flex-shrink: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent) 40%, transparent);
+  opacity: 0.55;
+  margin: -2px 0;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
+.header {
+  flex-shrink: 0;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-svg {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.logo-copy {}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.logo-text span { color: var(--accent); }
+
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── STATS ROW ──────────────────────────────────────────────────────────── */
+.stats-row {
+  flex-shrink: 0;
+  height: var(--stats-h);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.stat-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.stat-card.highlight-card {
+  border-color: rgba(64, 196, 255, 0.2);
+}
+
+.stat-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.stat-val.accent { color: var(--accent); }
+.stat-val.green  { color: var(--green); }
+.stat-val.red    { color: var(--red); }
+.stat-val.blue   { color: var(--blue); }
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ─── MAIN GRID ──────────────────────────────────────────────────────────── */
+.main-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--col-left-w) 1fr;
+  gap: 10px;
+  overflow: hidden;
+}
+
+/* ─── COLUMNS (scrollable) ───────────────────────────────────────────────── */
+.col-left,
+.col-right {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-right: 2px;
+}
+
+/* ─── TICKER ─────────────────────────────────────────────────────────────── */
+.ticker-bar {
+  flex-shrink: 0;
+  height: var(--ticker-h);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 12px;
+  overflow: hidden;
+}
+
+.ticker-label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+
+.ticker-items {
+  display: flex;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-dim);
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.tick               { white-space: nowrap; }
+.tick.win           { color: var(--green); }
+.tick.loss          { color: var(--red); }
+.tick.pistol        { color: var(--purple-light); }
+.tick.bomb-win      { color: var(--blue); }
+.tick.bomb-loss     { color: #ff8a65; }
+.no-history         { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1px; }
+
+.tick-sep { color: var(--text-dim); margin: 0 2px; }

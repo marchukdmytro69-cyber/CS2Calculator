@@ -1,0 +1,166 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   base.css  —  CSS-змінні, reset, body, фон
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CUSTOM PROPERTIES ──────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-deep:        #0a0c0d;
+  --bg-panel:       rgba(17, 20, 24, 0.92);
+  --bg-card:        rgba(22, 27, 32, 0.95);
+  --bg-hover:       rgba(28, 34, 41, 0.95);
+
+  /* Borders */
+  --border:         #2a3038;
+  --border-bright:  #3d4750;
+
+  /* Accent / Colours */
+  --accent:         #f5a623;
+  --accent-dim:     #a06810;
+  --accent-glow:    rgba(245, 166, 35, 0.15);
+  --green:          #4caf50;
+  --green-dim:      #2a6b2d;
+  --red:            #f44336;
+  --red-dim:        #8c2420;
+  --blue:           #40c4ff;
+  --blue-dim:       #1565c0;
+  --purple:         #ab47bc;
+  --purple-light:   #e1bee7;
+
+  /* Text */
+  --text-primary:   #e8ecef;
+  --text-secondary: #8a9199;
+  --text-dim:       #4a5259;
+
+  /* Fonts */
+  --font-mono:    'Share Tech Mono', monospace;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Rajdhani', sans-serif;
+
+  /* Layout measurements */
+  --header-h:    52px;
+  --stats-h:     52px;
+  --ticker-h:    34px;
+  --col-left-w:  330px;
+  --gap:         8px;
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+/* ─── BODY & BACKGROUND ──────────────────────────────────────────────────── */
+body {
+  height: 100%;
+  background-color: var(--bg-deep);
+
+  /*
+   * ─── BACKGROUND IMAGE ──────────────────────────────────────────────────
+   * Покладіть ваш файл у папку images/ і розкоментуйте рядок нижче.
+   * Замініть 'bg.jpg' на назву вашого файлу (bg.png, bg.webp тощо).
+   */
+  /* background-image: url('../images/bg.jpg'); */
+
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ─── SCANLINE GRID OVERLAY ──────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent, transparent 39px,
+      rgba(255, 255, 255, 0.012) 39px,
+      rgba(255, 255, 255, 0.012) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent, transparent 39px,
+      rgba(255, 255, 255, 0.012) 39px,
+      rgba(255, 255, 255, 0.012) 40px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── DARK OVERLAY (поверх background-image, під контентом) ──────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  /*
+   * Змінте opacity нижче якщо фон надто темний або надто яскравий:
+   *   0.0 = без затемнення   0.5 = 50% чорного   0.85 = майже чорний
+   */
+  background: rgba(8, 10, 11, 0.80);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient accent glow (under content, above overlay) */
+.app-glow {
+  position: fixed;
+  top: -30%;
+  left: -10%;
+  width: 50%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(245, 166, 35, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── APP WRAPPER ────────────────────────────────────────────────────────── */
+.app {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 6px;
+  gap: var(--gap);
+  overflow: hidden;
+  animation: appFadeIn 0.45s ease;
+}
+
+@keyframes appFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SCROLLBAR THEME ────────────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar       { width: 4px; height: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ─── UTILITY CLASSES ────────────────────────────────────────────────────── */
+.mono    { font-family: var(--font-mono); }
+.display { font-family: var(--font-display); }
+
+.color-accent  { color: var(--accent); }
+.color-green   { color: var(--green); }
+.color-red     { color: var(--red); }
+.color-blue    { color: var(--blue); }
+.color-dim     { color: var(--text-dim); }
+.color-secondary { color: var(--text-secondary); }
