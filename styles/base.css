@@ -67,7 +67,8 @@ body {
    * Покладіть ваш файл у папку images/ і розкоментуйте рядок нижче.
    * Замініть 'bg.jpg' на назву вашого файлу (bg.png, bg.webp тощо).
    */
-  /* background-image: url('../images/bg.jpg'); */
+
+  background-image: url('../images/bg.webp');
 
   background-size: cover;
   background-position: center center;
